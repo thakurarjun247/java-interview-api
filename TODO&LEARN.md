@@ -9,7 +9,7 @@ global exception handling
 add lombok and get rid of getters and setters
 create a script to automate git push
 
-curls:
+curls:git 
 
 curl -X POST http://localhost:8081/signup \
      -H "Content-Type: application/json" \
@@ -17,3 +17,4 @@ curl -X POST http://localhost:8081/signup \
            "email": "arjun@example.com",
            "password": "password123"
          }'
+curl -X GET "http://localhost:8081/find-by-email?email=arjun@example.com"
