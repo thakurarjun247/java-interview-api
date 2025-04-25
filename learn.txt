@@ -1,0 +1,19 @@
+learn:
+
+learn how proxy classes created to give implementation to repository
+diff between post mapping put mapping and names of all mappings, idempotency
+rebase and stashing
+
+todo:
+global exception handling
+add lombok and get rid of getters and setters
+create a script to automate git push
+
+curls:
+
+curl -X POST http://localhost:8081/signup \
+     -H "Content-Type: application/json" \
+     -d '{
+           "email": "user@example.com",
+           "password": "password123"
+         }'
