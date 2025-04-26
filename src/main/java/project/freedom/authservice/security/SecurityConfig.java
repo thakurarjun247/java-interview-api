@@ -1,16 +1,57 @@
 package project.freedom.authservice.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import project.freedom.authservice.service.CustomUserDetailsService;
+
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    // Autowire CustomUserDetailsService
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+
+
+    // AuthenticationManager bean definition
+    // AuthenticationManager bean definition
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
+        // Create AuthenticationManagerBuilder
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                new AuthenticationManagerBuilder(httpSecurity.getSharedObject(AuthenticationConfiguration.class).getObjectPostProcessor());
+
+        // Set CustomUserDetailsService for authentication
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService);
+
+        return authenticationManagerBuilder.build();
+    }
+
+    // AuthenticationManager bean definition
+    @Bean
+    public AuthenticationManager authenticationManager1(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        // Get the AuthenticationManager from the AuthenticationConfiguration
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                authenticationConfiguration.getAuthenticationManagerBuilder();
+
+        // Set CustomUserDetailsService for authentication
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService);
+
+        return authenticationManagerBuilder.build();
+    }
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
