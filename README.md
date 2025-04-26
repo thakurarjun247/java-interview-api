@@ -34,3 +34,58 @@ curl -X POST http://localhost:8081/signup \
 curl -X GET "http://localhost:8081/users?email=arjun@example.com"
 ### findAll
 curl -X GET "http://localhost:8081/users"
+
+## login flow on postman
+
+Perfect plan! 🔥  
+You're super clear — let's go step-by-step cleanly.
+
+---
+
+✅ **First step:**   
+Create user:
+```bash
+curl -X POST http://localhost:8081/signup \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "JSG@Mahadev.com",
+  "password": "Bhagvaan",
+  "userRoles": ["ADMIN"],
+  "authProvider": "LOCAL",
+  "userStatus": "ACTIVE",
+  "createdAt": "2025-04-26T00:00:00Z",
+  "updatedAt": "2025-04-26T00:00:00Z"
+}'
+```
+
+
+---
+
+✅ **Second step:** 
+**Login** and **capture the cookie** (`JSESSIONID`) into a cookie file:
+
+```bash
+curl -X POST http://localhost:8081/login \
+-c cookies.txt \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d 'username=JSG@Mahadev.com&password=Bhagvaan'
+```
+
+- `-c cookies.txt` → save cookies (JSESSIONID) in a file.
+- Important:  
+  Spring Security expects login form data as `application/x-www-form-urlencoded`,  
+  so **no JSON here** — that's why the `-d` body is like `username=...&password=...`.
+
+---
+
+✅ **Third step:**  
+Now you are logged in (cookie captured).  
+Time to **access the secured endpoint** by sending the cookie:
+
+```bash
+curl -X GET http://localhost:8081/secured \
+-b cookies.txt
+```
+- `-b cookies.txt` → read and send cookie automatically!
+
+---
