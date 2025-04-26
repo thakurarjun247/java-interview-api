@@ -1,7 +1,6 @@
 package project.freedom.authservice.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
 import project.freedom.authservice.entity.User;
 import project.freedom.authservice.service.UserService;
@@ -9,12 +8,12 @@ import project.freedom.authservice.service.UserService;
 import java.util.Date;
 
 @RestController
-public class UserController {
+public class HomeController {
     @Autowired
     private UserService userService;
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello " + new Date();
+    @GetMapping("/health")
+    public String health() {
+        return "Health is green as on  " + new Date();
     }
 
     @PostMapping("/signup")
@@ -24,9 +23,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/find-by-email")
-    public User findByEmail(@RequestParam String email) {
-        return userService.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
+
+
 }
