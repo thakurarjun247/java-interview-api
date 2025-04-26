@@ -18,11 +18,13 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
+    @Autowired UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> optionalfetchedUser = userRepository.findByEmail(email);
-        User user = userRepository.findByEmail(email)
+        //Optional<User> optionalUser= userService.findByEmail(email);
+        Optional<User> optionalfetchedUser = userService.findByEmail(email);
+        User user = optionalfetchedUser
                 .orElseThrow(() -> new UserNotFoundException(ExceptionType.USER_NOT_FOUND));
 
 

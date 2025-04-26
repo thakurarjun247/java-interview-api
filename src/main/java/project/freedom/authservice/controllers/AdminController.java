@@ -10,20 +10,16 @@ import project.freedom.authservice.service.UserService;
 
 import java.util.Date;
 
-@RestController("/admin")
+@RestController
 public class AdminController {
 
     @Autowired
     private UserService userService;
-    @GetMapping("/healthadmin")
+    @GetMapping("/secured")
     public String health() {
-        return "Health is green as on  " + new Date();
+        return "Hi Admin, you are loggedin on " + new Date();
     }
 
-    @PostMapping("/signupadmin")
-    //@RequestParam User user won't work — you should use @RequestBody for JSON payloads.
-    public User signup(@RequestBody User user){
-        return userService.save(user);
-    }
+
 
 }

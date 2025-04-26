@@ -63,6 +63,8 @@ public class SecurityConfig {
                         auth -> {
                             auth.requestMatchers("/health").permitAll(); // ✅ All public pages like /home/health, /home/signup, etc.
                             auth.requestMatchers("/signup").permitAll(); // ✅ All public pages like /home/health, /home/signup, etc.
+                            auth.requestMatchers("/users").permitAll(); // ✅ All public pages like /home/health, /home/signup, etc.
+                            auth.requestMatchers("/findbyemail").permitAll(); // ✅ All public pages like /home/health, /home/signup, etc.
 
 
                             auth.requestMatchers("/secured").authenticated(); // ✅ Any authenticated user
