@@ -1,8 +1,7 @@
 package project.freedom.authservice.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,6 +35,7 @@ public class SecurityConfig {
 // }
 
     @Autowired
+    @Lazy
     private CustomUserDetailsService customUserDetailsService;
 
     @Bean

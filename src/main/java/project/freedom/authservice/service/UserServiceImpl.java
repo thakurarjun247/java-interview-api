@@ -1,6 +1,7 @@
 package project.freedom.authservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.freedom.authservice.entity.User;
 import project.freedom.authservice.enums.AuthProvider;
@@ -18,12 +19,14 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Override
     public User save(User user) {
         //no need to duplicate email check, jpa will do it, look at the annotation on email
         //field in user class
         if(isDuplicateEmail(user.getEmail())) throw new DuplicateEmailException(ExceptionType.DUPLICATE_EMAIL);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
