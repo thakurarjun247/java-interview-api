@@ -75,7 +75,7 @@ public class SecurityConfig {
                         }
                 )
                 .csrf(csrf ->csrf.disable())
-                .oauth2Login(withDefaults())
+                //.oauth2Login(withDefaults())
                 .formLogin(withDefaults())
                 .build();
     }
