@@ -59,7 +59,16 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(
                         auth -> {
-                            auth.requestMatchers("/secured").authenticated(); // ✅ Only this needs login
+                            auth.requestMatchers(
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui/**",
+                                    "/swagger-ui.html",
+                                    "/swagger-resources/**",
+                                    "/configuration/ui",
+                                    "/configuration/security",
+                                    "/webjars/**"
+                            ).permitAll();
+                           // auth.requestMatchers("/secured").authenticated(); // ✅ Only this needs login
                             auth.anyRequest().permitAll(); // ✅ Everything else is public
                         }
                 )
