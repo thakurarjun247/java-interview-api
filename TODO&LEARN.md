@@ -13,3 +13,6 @@ curls:
 
 
 curl for windows
+
+why the current cookies and jsessionid won't work when server restarts.
+

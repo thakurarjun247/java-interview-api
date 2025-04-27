@@ -66,16 +66,17 @@ public class SecurityConfig {
                             auth.requestMatchers("/users").permitAll(); // ✅ All public pages like /home/health, /home/signup, etc.
                             auth.requestMatchers("/findbyemail").permitAll(); // ✅ All public pages like /home/health, /home/signup, etc.
 
-
+                            auth.requestMatchers(
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui.html"
+                            ).permitAll();
                             auth.requestMatchers("/secured").authenticated(); // ✅ Any authenticated user
 
-                           // auth.requestMatchers("/secured/**").hasRole("LOGGED_IN"); // Only allow users with the USER role to access the /user/** endpoint
-                          //  auth.requestMatchers("/admin/**").hasRole("ADMIN"); // Only allow users with the ADMIN role to access the /admin/** endpoint
-                            auth.anyRequest().authenticated();
+                                  // auth.anyRequest().authenticated();
                         }
                 )
                 .csrf(csrf ->csrf.disable())
-                //.oauth2Login(withDefaults())
                 .formLogin(withDefaults())
                 .build();
     }
