@@ -59,13 +59,15 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(
                         auth -> {
-                            auth.requestMatchers("/user").hasRole("USER"); // Only users with ROLE_USER can access /user
-                            auth.requestMatchers("/admin").hasRole("ADMIN");
-                            auth.anyRequest().authenticated();
+                            auth.requestMatchers("/user/**").hasRole("USER"); // Only users with ROLE_USER can access /user
+                            auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                            auth.requestMatchers("/secured").authenticated();
+                            auth.anyRequest().permitAll();
+
                         }
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Create session if required
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)  // Create session if required
                         .invalidSessionUrl("/invalid-session") // Redirect to login if session is invalid
 
                 )

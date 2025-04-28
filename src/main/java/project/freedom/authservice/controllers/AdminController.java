@@ -13,7 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@RestController("/admin")
+@RestController
+@RequestMapping("/admin")
 @Tag(name = "Admin Controller")
 
 public class AdminController {
