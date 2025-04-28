@@ -13,7 +13,7 @@ import java.util.Optional;
 //Makes your intent explicit.
 //
 //Enables better exception translation — Spring wraps JPA exceptions into DataAccessException.
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface HomeRepository extends JpaRepository<User, Long> {
 
     //How it works behind the scenes:
     //At startup, Spring scans for interfaces that extend JpaRepository.

@@ -4,30 +4,24 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.freedom.authservice.entity.User;
-import project.freedom.authservice.exception.ExceptionType;
-import project.freedom.authservice.exception.UserNotFoundException;
-import project.freedom.authservice.repository.UserRepository;
-import project.freedom.authservice.service.UserService;
+import project.freedom.authservice.repository.HomeRepository;
+import project.freedom.authservice.service.HomeService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
 import project.freedom.authservice.entity.LoginRequest;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-@Tag(name = "Plant", description = "the Plant Api")
+
+@Tag(name = "Home Controller", description = "No login needed")
 
 @RestController
 public class HomeController {
     @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    private HomeService userService;
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @GetMapping("/health")
@@ -55,18 +49,12 @@ public class HomeController {
             throw new RuntimeException("Invalid email or password");
         }
     }
+    @GetMapping("/invalid-session")
+    public String invalidSession(){
+        return "invalid session";
+    }
 
-    @GetMapping("/users")
-    public List<User> findAll(){
-        return userRepository.findAll();
-    }
-    @GetMapping("/findbyemail")
-    public User findByEmail(@RequestParam String email){
-        Optional<User> optionalUser= userService.findByEmail(email);
-        if (optionalUser.isPresent())
-            return optionalUser.get();
-        throw  new UserNotFoundException(ExceptionType.USER_NOT_FOUND);
-    }
+
 
 
 }

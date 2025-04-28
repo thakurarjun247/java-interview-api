@@ -1,16 +1,16 @@
-package project.freedom.authservice.service;
+package project.freedom.authservice.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import project.freedom.authservice.entity.User;
 import project.freedom.authservice.exception.ExceptionType;
 import project.freedom.authservice.exception.UserNotFoundException;
-import project.freedom.authservice.repository.UserRepository;
+import project.freedom.authservice.repository.HomeRepository;
+import project.freedom.authservice.service.HomeService;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -18,11 +18,11 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    HomeRepository userRepository;
     @Autowired
     @Lazy
 
-            UserService userService;
+    HomeService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

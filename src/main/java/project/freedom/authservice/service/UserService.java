@@ -1,17 +1,12 @@
 package project.freedom.authservice.service;
 
-import project.freedom.authservice.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
-//On the interface (UserService) → ❌ No annotation needed
-
-//On the implementation class (UserServiceImpl) → ✅ Use @Service
 public interface UserService {
-    //Return User directly instead of ResponseEntity<User>:
-    //ResponseEntity is a web layer concern, and it's better to keep service layer pure and free from HTTP-specific logic.
-    //Let  Controller handle the wrapping with ResponseEntity.
-    public User save(User user);
-
-    public Optional<User> findByEmail(String email);
+    public String logout(HttpServletRequest request, HttpServletResponse response);
 }

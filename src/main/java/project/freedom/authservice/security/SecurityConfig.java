@@ -9,11 +9,11 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import project.freedom.authservice.service.CustomUserDetailsService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -59,9 +59,15 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(
                         auth -> {
-                            auth.requestMatchers("/secured").authenticated(); // Only this needs login
-                            auth.anyRequest().permitAll(); // Everything else is public
+                            auth.requestMatchers("/user").hasRole("USER"); // Only users with ROLE_USER can access /user
+                            auth.requestMatchers("/admin").hasRole("ADMIN");
+                            auth.anyRequest().authenticated();
                         }
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Create session if required
+                        .invalidSessionUrl("/invalid-session") // Redirect to login if session is invalid
+
                 )
                 .csrf(csrf -> csrf.disable())
                 .formLogin(withDefaults())
