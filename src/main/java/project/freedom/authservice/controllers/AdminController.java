@@ -1,5 +1,6 @@
 package project.freedom.authservice.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/admin")
 @Tag(name = "Admin Controller")
+@SecurityRequirement(name = "cookieAuth")
 
 public class AdminController {
 

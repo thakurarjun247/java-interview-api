@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: Your Auth Service API
+  version: v1
+  description: API documentation for the Auth Service
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+
+paths:
+  /login:
+    post:
+      summary: Login to the application
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: username
+          in: formData
+          required: true
+          type: string
+        - name: password
+          in: formData
+          required: true
+          type: string
+      responses:
+        '302':
+          description: Redirect after successful login (check cookies)
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: The JSESSIONID cookie
+            Location:
+              schema:
+                type: string
+              description: The URL to redirect to after login
+        '401':
+          description: Authentication failed
+
+  /user/loggedin:
+    get:
+      summary: Check if user is logged in
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User is logged in!
+        '401':
+          description: Unauthorized
+
+  /admin/dashboard:
+    get:
+      summary: Admin dashboard
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Admin dashboard
+        '403':
+          description: Forbidden

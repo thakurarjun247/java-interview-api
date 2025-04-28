@@ -1,4 +1,26 @@
 package project.freedom.authservice.controllers;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import project.freedom.authservice.entity.User;
+import project.freedom.authservice.repository.HomeRepository;
+import project.freedom.authservice.service.HomeService;
+//import project.freedom.authservice.dto.LoginRequest; // Ensure this DTO exists
+import java.util.Date;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +43,52 @@ import java.util.Date;
 public class HomeController {
     @Autowired
     private HomeService userService;
+    @Autowired SecurityContextRepository securityContextRepository;
 
+    @PostMapping("/swagger-login")
+    @Operation(summary = "Login endpoint for Swagger UI",
+            description = "Authenticates the user and returns the JSESSIONID cookie.")
+
+    public ResponseEntity<String> swaggerLogin(
+            @RequestBody LoginRequest loginRequest,
+            HttpServletResponse response) {
+        try {
+            // 1. Authenticate the user using the AuthenticationManager (same as your /login)
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            // 2. Store the Authentication in the SecurityContext (very important for session)
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Get the request from the RequestContextHolder
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+            securityContextRepository.saveContext(context, request, response);
+
+            // 3. Extract the JSESSIONID cookie from the response
+            String jsessionId = response.getHeader("Set-Cookie");
+            if (jsessionId != null && jsessionId.contains("JSESSIONID=")) {
+                jsessionId = jsessionId.substring(jsessionId.indexOf("JSESSIONID="));
+                jsessionId = jsessionId.split(";")[0];
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("JSESSIONID not found in response");
+            }
+
+            // 4. Return the JSESSIONID
+            return ResponseEntity.ok(jsessionId); // Return only the cookie value
+
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Authentication failed: " + e.getMessage());
+        }
+    }
     @Autowired
     private AuthenticationManager authenticationManager;
     @GetMapping("/health")
