@@ -68,6 +68,7 @@ public class SecurityConfig {
                             auth.requestMatchers("/user/**").hasRole("USER"); // Only users with ROLE_USER can access /user
                             auth.requestMatchers("/admin/**").hasRole("ADMIN");
                             auth.requestMatchers("/secured").authenticated();
+                            auth.requestMatchers("/auth/**").authenticated();
                             auth.anyRequest().permitAll();
 
                         }
