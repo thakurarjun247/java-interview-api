@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<String> handleDuplicateEmailException(DuplicateEmailException duplicateEmailException){
+    public ResponseEntity<String> handleDuplicateEmailException(DuplicateEmailException duplicateEmailException) {
         return new ResponseEntity<>(duplicateEmailException.getMessage(), HttpStatus.CONFLICT);
     }
 }

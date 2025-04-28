@@ -7,7 +7,7 @@ import project.freedom.authservice.entity.User;
 import java.util.Optional;
 
 @Repository //// <-- Optional, but helpful
-        //No, it's optional when you extend JpaRepository, because Spring Boot automatically detects and registers all Spring Data repositories.
+//No, it's optional when you extend JpaRepository, because Spring Boot automatically detects and registers all Spring Data repositories.
 //
 //But adding @Repository has benefits:
 //

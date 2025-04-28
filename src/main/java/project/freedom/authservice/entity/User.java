@@ -92,6 +92,7 @@ public class User {
     private UserStatus userStatus;
     private Date createdAt;
     private Date updatedAt;
+
     public User() {
     }
 

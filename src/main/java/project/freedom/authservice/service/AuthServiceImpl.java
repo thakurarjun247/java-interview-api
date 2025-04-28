@@ -8,6 +8,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -22,8 +23,8 @@ public class AuthServiceImpl implements AuthService {
         return "You are logged out";
     }
 
-   @Override
-   public Optional<String> getCurrentUser() {
+    @Override
+    public Optional<String> getCurrentUser() {
         // Get the Authentication object from the SecurityContextHolder.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {

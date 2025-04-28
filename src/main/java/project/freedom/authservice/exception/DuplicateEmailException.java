@@ -1,12 +1,14 @@
 package project.freedom.authservice.exception;
 
-public class DuplicateEmailException extends RuntimeException{
+public class DuplicateEmailException extends RuntimeException {
     ExceptionType exceptionType;
-    public DuplicateEmailException(){
+
+    public DuplicateEmailException() {
 
     }
-    public DuplicateEmailException(ExceptionType exceptionType){
+
+    public DuplicateEmailException(ExceptionType exceptionType) {
         super(exceptionType.getExceptionDescription());
-        this.exceptionType=exceptionType;
+        this.exceptionType = exceptionType;
     }
 }

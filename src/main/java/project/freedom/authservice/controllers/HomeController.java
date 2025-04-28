@@ -1,4 +1,5 @@
 package project.freedom.authservice.controllers;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,27 +14,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import project.freedom.authservice.entity.User;
-import project.freedom.authservice.repository.HomeRepository;
-import project.freedom.authservice.service.HomeService;
-//import project.freedom.authservice.dto.LoginRequest; // Ensure this DTO exists
-import java.util.Date;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import project.freedom.authservice.entity.User;
-import project.freedom.authservice.repository.HomeRepository;
-import project.freedom.authservice.service.HomeService;
-
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import project.freedom.authservice.entity.LoginRequest;
+import project.freedom.authservice.entity.User;
+import project.freedom.authservice.service.HomeService;
 
 import java.util.Date;
 
@@ -43,7 +32,15 @@ import java.util.Date;
 public class HomeController {
     @Autowired
     private HomeService userService;
-    @Autowired SecurityContextRepository securityContextRepository;
+    @Autowired
+    SecurityContextRepository securityContextRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @GetMapping("/health")
+    public String health() {
+        return "Health is green as on  " + new Date();
+    }
 
     @PostMapping("/swagger-login")
     @Operation(summary = "Login endpoint for Swagger UI",
@@ -89,19 +86,16 @@ public class HomeController {
                     .body("Authentication failed: " + e.getMessage());
         }
     }
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @GetMapping("/health")
-    public String health() {
-        return "Health is green as on  " + new Date();
-    }
+
 
     @PostMapping("/signup")
     //@RequestParam User user won't work — you should use @RequestBody for JSON payloads.
-    public User signup(@RequestBody User user){
+    public User signup(@RequestBody User user) {
         return userService.save(user);
     }
 
+    @Operation(summary = "Deprecreated for swagger use /swagger-login instead, use it only with curl"
+            , description = "Deprecreated for swagger use /swagger-login instead, use it only with curl, ")
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest) {
         try {
@@ -116,12 +110,11 @@ public class HomeController {
             throw new RuntimeException("Invalid email or password");
         }
     }
+
     @GetMapping("/invalid-session")
-    public String invalidSession(){
+    public String invalidSession() {
         return "invalid session";
     }
-
-
 
 
 }

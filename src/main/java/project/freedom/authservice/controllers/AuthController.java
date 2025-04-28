@@ -2,12 +2,12 @@ package project.freedom.authservice.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import project.freedom.authservice.service.AuthService;
 
 import java.util.Optional;
@@ -15,25 +15,20 @@ import java.util.Optional;
 @RestController
 @SecurityRequirement(name = "cookieAuth")
 @RequestMapping("/auth")
-@Tag(name="Auth Controller", description = "Accessible to any logged in users, irrespective of role")
+@Tag(name = "Auth Controller", description = "Accessible to any logged in users, irrespective of role")
 public class AuthController {
     @Autowired
     AuthService authService;
-    @GetMapping("/secured")
-    public String secured(){
-        return "you are logged in.";
-    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-return authService.logout(request,response);
+        return authService.logout(request, response);
     }
 
     @GetMapping("/getcurrentuser")
     public Optional<String> getCurrentUser() {
         return authService.getCurrentUser();
     }
-
 
 
 }

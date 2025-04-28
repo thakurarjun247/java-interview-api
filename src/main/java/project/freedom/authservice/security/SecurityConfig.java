@@ -54,6 +54,7 @@ public class SecurityConfig {
 
         return new ProviderManager(authenticationProvider);
     }
+
     @Bean
     public SecurityContextRepository securityContextRepository() {
         return new HttpSessionSecurityContextRepository();
