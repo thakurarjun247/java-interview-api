@@ -3,10 +3,8 @@ package project.freedom.authservice.controllers;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import project.freedom.authservice.entity.User;
 import project.freedom.authservice.exception.ExceptionType;
 import project.freedom.authservice.exception.UserNotFoundException;
@@ -31,11 +29,23 @@ public class AdminController {
         return adminService.findAll();
     }
 
-    @GetMapping("/findbyemail")
-    public User findByEmail(@RequestParam String email) {
+    @GetMapping("/users/email/{email}")
+    public User findByEmail(@PathVariable String email) {
         Optional<User> optionalUser = adminService.findByEmail(email);
         return optionalUser.orElseThrow(() -> new UserNotFoundException(ExceptionType.USER_NOT_FOUND));
 
+    }
+
+    @DeleteMapping("/users/email/{email}")
+    public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
+        adminService.deleteUserByEmail(email);
+        return ResponseEntity.ok("User with email " + email + " deleted successfully.");
+    }
+
+    @DeleteMapping("/users")
+    public ResponseEntity<String> deleteAllUsers() {
+        adminService.deleteAllUsers();
+        return ResponseEntity.ok("All users deleted successfully.");
     }
 
 }

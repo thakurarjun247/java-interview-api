@@ -15,4 +15,8 @@ public interface AdminService {
     public List<User> findAll();
 
     public Optional<User> findByEmail(String email);
+
+    void deleteUserByEmail(String email);
+
+    void deleteAllUsers();
 }

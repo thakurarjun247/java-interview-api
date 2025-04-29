@@ -25,7 +25,7 @@ public class AuthController {
         return authService.logout(request, response);
     }
 
-    @GetMapping("/getcurrentuser")
+    @GetMapping("/me")
     public Optional<String> getCurrentUser() {
         return authService.getCurrentUser();
     }

@@ -39,4 +39,11 @@ public interface AdminRepository extends JpaRepository<User, Long> {
 
     //Spring Data JPA will auto-generate the implementation based on method naming.
     Optional<User> findByEmail(String email);
+    // Deletes a user by email and returns number of rows affected (optional)
+    void deleteByEmail(String email);
+
+    // Deletes all users from the table
+    void deleteAll(); // already inherited from JpaRepository, adding here for clarity
+
+
 }
