@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "backend.interview")
-public class AuthserviceApplication {
+public class WidgetApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthserviceApplication.class, args);
+        SpringApplication.run(WidgetApplication.class, args);
     }
 
 }

@@ -27,14 +27,16 @@ public class WidgetController {
         return widgetService.findByName(name);
     }
 
+    //todo: add validation annotation
     @PostMapping
-    public ResponseEntity<WidgetResponseDTO> create(@Valid @RequestBody WidgetRequestDTO dto) {
+    public ResponseEntity<WidgetResponseDTO> create(@RequestBody WidgetRequestDTO dto) {
         return ResponseEntity.ok(widgetService.create(dto));
     }
 
+    //todo: add validation annotation
     @PutMapping("/{name}")
     public ResponseEntity<WidgetResponseDTO> update(@PathVariable String name,
-                                                    @Valid @RequestBody WidgetRequestDTO dto) {
+                                                     @RequestBody WidgetRequestDTO dto) {
         return ResponseEntity.ok(widgetService.update(name, dto));
     }
 
