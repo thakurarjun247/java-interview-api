@@ -5,13 +5,15 @@ A simple RESTful service to manage widgets using Spring Boot and H2 in-memory da
 
 ## Requirements
 
-* Java 17+
+* Java 17+ (We ran it with Java 24)
 * Maven
 
 ## Run
 
-- mvn spring-boot\:run
+- mvn clean install && mvn spring-boot:run
+- Or just run WidgetApplication.java in IntelliJ.
 - Runs the app at: [http://localhost:8081](http://localhost:8081)
+
 
 ## API Endpoints
 
