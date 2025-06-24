@@ -7,6 +7,7 @@ import backend.interview.api.exception.WidgetNotFoundException;
 import backend.interview.api.mapper.WidgetMapper;
 import backend.interview.api.model.Widget;
 import backend.interview.api.repository.WidgetRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
+    @Transactional
     public void delete(String name) {
         if (!widgetRepository.existsByName(name)) {
             throw new WidgetNotFoundException(name);
