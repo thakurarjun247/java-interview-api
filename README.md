@@ -1,91 +1,41 @@
-# AuthService
-Once of the most crucial microservice of the project freedom.
 
-https://www.youtube.com/watch?v=yodeo205pp0&t=84s
+# Widget Backend API
 
-## curl for endpoints
+A simple RESTful service to manage widgets using Spring Boot and H2 in-memory database.
 
-### login
-When you call /login, Spring Security is handling it internally.
+## Requirements
 
-Spring expects a form-data POST (application/x-www-form-urlencoded) by default — not JSON.
+* Java 17+
+* Maven
 
-When you send JSON, Spring Security's default UsernamePasswordAuthenticationFilter doesn't understand it.
-It is expecting form fields, not JSON fields.
+## Run
 
-curl -X POST http://localhost:8081/login \
--H "Content-Type: application/x-www-form-urlencoded" \
--d "username=arjun@example.com&password=password123"
+- mvn spring-boot\:run
+- Runs the app at: [http://localhost:8081](http://localhost:8081)
 
-### signup
-curl -X POST http://localhost:8081/signup \
--H "Content-Type: application/json" \
--d '{
-"email": "admin@gmail.com",
-"password": "admin",
-"userRoles": ["ADMIN"],
-"authProvider": "LOCAL",
-"userStatus": "ACTIVE",
-"createdAt": "2025-04-26T00:00:00Z",
-"updatedAt": "2025-04-26T00:00:00Z"
-}'
+## API Endpoints
 
-### findbyemail
-curl -X GET "http://localhost:8081/users?email=arjun@example.com"
-### findAll
-curl -X GET "http://localhost:8081/users"
+- GET /widgets – List all widgets
+- GET /widgets/{name} – Get widget by name
+- POST /widgets – Create a new widget
+- PUT /widgets/{name} – Update widget (description, price)
+- DELETE /widgets/{name} – Delete widget
 
-## login flow on postman
+## Sample JSON
 
-Perfect plan! 🔥  
-You're super clear — let's go step-by-step cleanly.
+{
+"name": "WidgetX",
+"description": "Test widget",
+"price": 99
+}
 
----
+## Tools
 
-✅ **First step:**   
-Create user:
-```bash
-curl -X POST http://localhost:8081/signup \
--H "Content-Type: application/json" \
--d '{
-  "email": "JSG@Mahadev.com",
-  "password": "Bhagvaan",
-  "userRoles": ["ADMIN"],
-  "authProvider": "LOCAL",
-  "userStatus": "ACTIVE",
-  "createdAt": "2025-04-26T00:00:00Z",
-  "updatedAt": "2025-04-26T00:00:00Z"
-}'
-```
+- Swagger: [http://localhost:8081/swagger-ui/index.html](http://localhost:8081/swagger-ui/index.html)
 
+## Notes
 
----
-
-✅ **Second step:** 
-**Login** and **capture the cookie** (`JSESSIONID`) into a cookie file:
-
-```bash
-curl -X POST http://localhost:8081/login \
--c cookies.txt \
--H "Content-Type: application/x-www-form-urlencoded" \
--d 'username=JSG@Mahadev.com&password=Bhagvaan'
-```
-
-- `-c cookies.txt` → save cookies (JSESSIONID) in a file.
-- Important:  
-  Spring Security expects login form data as `application/x-www-form-urlencoded`,  
-  so **no JSON here** — that's why the `-d` body is like `username=...&password=...`.
-
----
-
-✅ **Third step:**  
-Now you are logged in (cookie captured).  
-Time to **access the secured endpoint** by sending the cookie:
-
-```bash
-curl -X GET http://localhost:8081/secured \
--b cookies.txt
-```
-- `-b cookies.txt` → read and send cookie automatically!
-
----
+* No Docker required
+* CORS enabled for [http://localhost:3000](http://localhost:3000)
+* Validation and error handling included
+* Stateless session configuration
